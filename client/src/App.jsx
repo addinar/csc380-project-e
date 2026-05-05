@@ -1,18 +1,42 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import LoginCard from './components/login/LoginCard';
+import RSAPanel from './components/RSA/RSAPanel';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showRSA, setShowRSA] = useState(false);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-green-200">
-        RSA Demo 🚀
-      </h1>
-    </div>
+    <main className="flex min-h-screen items-center bg-slate-200" >
+      <section
+        className={`min-h-screen flex items-center justify-center transition-all duration-500 ${
+          showRSA ? "w-1/2" : "w-full"
+        }`}
+      >
+        <LoginCard 
+          onLogin={() => {
+            setLoggingIn(true);
+            setTimeout(() => {
+              setShowRSA(true);
+            }, 500);
+          }}
+          loggingIn={loggingIn}
+        />
+      </section>
+      <section
+        className={`transition-all duration-500 ${
+          showRSA ? "w-1/2 opacity-100" : "w-0 opacity-0"
+        } overflow-hidden`}
+      >
+        { showRSA &&
+          <RSAPanel 
+            onClick={() => setShowRSA(false)}
+            loggingIn={loggingIn}
+          />
+        }
+      </section>
+    </main>
   )
 }
 
