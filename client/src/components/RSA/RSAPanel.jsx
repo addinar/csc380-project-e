@@ -46,6 +46,12 @@ export default function RSAPanel({ onClick, loggingIn }) {
         }
     }
 
+    const generateSessionKey = () => {
+        const array = new Uint8Array(8);
+        crypto.getRandomValues(array);
+        return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+    };
+
     useEffect(() => {
         const computeRSA = async () => {
 
@@ -107,6 +113,26 @@ export default function RSAPanel({ onClick, loggingIn }) {
             ]
             
             await updateClientLogs(newEntries);
+
+            // 2 - Generate session key
+            await new Promise(res => setTimeout(res, 1000));
+            
+            setClientLogs(prev => [...prev, 
+                {
+                    step: "2", 
+                    title: "Generating session key...",
+                    entries: [
+                        { content: "Random symmetric key for this session.", color: "yellow" },
+                    ]
+                }
+            ]);
+
+            const sessKey = generateSessionKey();
+            newEntries = [
+                { content: `sessKey="${sessKey}"`, color: "green" }
+            ];
+            updateClientLogs(newEntries);
+
             
         };
 
@@ -154,16 +180,16 @@ export default function RSAPanel({ onClick, loggingIn }) {
             <div className="h-[calc(100%-58px)] overflow-y-scroll !mt-0">
                 <section className="w-full p-4">
                     <p className="text-gray-400 text-xs font-bold font-mono">01 Live Activity</p>
-                    <div className="flex w-full justify-between">
+                    <div className="flex w-full justify-between space-x-4">
                         {cards.map((c) => (
-                            <div className="border border-gray-600 w-60 mt-4 rounded-xl bg-gray-700">
+                            <div className="border flex-1 border-gray-600 w-60 mt-4 rounded-xl bg-gray-700">
                                 <div className="flex justify-start w-full border-b border-gray-600 p-2 items-center space-x-2">
                                     <div className={`h-2 w-2 ${c.dotColor} rounded-full`} />
                                     <p className={`font-mono text-xs font-bold ${c.textColor}`}>{c.title}</p>
                                 </div>
                                 <div className="p-4">
                                     {c.logs.map((l) => (
-                                        <div className="w-full p-2 flex border-b border-gray-600 border-opacity-40 space-x-1
+                                        <div className="w-full p-2 pb-4 flex border-b border-gray-600 border-opacity-40 space-x-1
                                             transition-all duration-500 ease-out opacity-0
                                             translate-y-2 animate-[fadeIn_0.4s_forwards]">
                                             <div className="w-full flex space-x-1 items-start">
