@@ -2,9 +2,11 @@ import {useState, useEffect} from 'react';
 import {X} from 'lucide-react';
 import LogEntry from './LogEntry';
 
-export default function RSAPanel({onClick, loggingIn, email}) {
+export default function RSAPanel({ onClick, loggingIn, email, setComplete }) {
     const [serverLogs, setServerLogs] = useState([]);
     const [clientLogs, setClientLogs] = useState([]);
+    const [sessionKey, setSessionKey] = useState("");
+    const [showResult, setShowResult] = useState(false);
 
     const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
@@ -83,16 +85,6 @@ export default function RSAPanel({onClick, loggingIn, email}) {
         return encrypted;
     };
 
-    const chunkString = (str, size = 15) => {
-        const chunks = [];
-      
-        for (let i = 0; i < str.length; i += size) {
-            chunks.push(str.slice(i, i + size));
-        }
-      
-        return chunks;
-    };
-
     useEffect(() => {
         const computeRSA = async () => {
             if (!loggingIn) return;
@@ -169,6 +161,7 @@ export default function RSAPanel({onClick, loggingIn, email}) {
             ]);
 
             const sessKey = generateSessionKey();
+            setSessionKey(sessKey);
             newEntries = [
                 {content: `sessKey="${sessKey}"`, color: "green"}
             ];
@@ -262,6 +255,9 @@ export default function RSAPanel({onClick, loggingIn, email}) {
                     ]
                 }
             ]);
+
+            await setShowResult(true);
+            await setComplete(true);
         };
 
         computeRSA();
@@ -347,6 +343,29 @@ export default function RSAPanel({onClick, loggingIn, email}) {
                         ))}
                     </div>
                 </section>
+
+                { showResult &&
+                    (<section className="w-full p-4">
+                        <p className="text-gray-400 text-xs font-bold font-mono mb-3">02 Result</p>
+                        <div className="w-full bg-green-900 bg-opacity-20 border border-green-700 border-opacity-40 rounded-xl px-4 py-3">
+                            <div className="flex items-center gap-2 mb-1">
+                                <div className="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0" />
+                                <span className="text-xs font-semibold text-green-400">Server decrypted session key successfully</span>
+                            </div>
+                            <p className="font-mono text-[9px] text-green-600 pl-3.5 mb-3">
+                                Session key: {sessionKey} · user: {email}
+                            </p>
+                            <div className="flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 bg-green-400 rounded-full flex-shrink-0" />
+                                <span className="text-xs font-semibold text-green-400">Secure channel established</span>
+                            </div>
+                            <p className="font-mono text-[9px] text-green-600 pl-3.5">
+                                Both sides now share the same session key · symmetric encryption active
+                            </p>
+                        </div>
+                      </section>)
+                }
+
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import LoginCard from './components/login/LoginCard';
 import RSAPanel from './components/RSA/RSAPanel';
 import './App.css'
@@ -7,6 +7,13 @@ function App() {
   const [showRSA, setShowRSA] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [email, setEmail] = useState("");
+  const [complete, setComplete] = useState(false);
+
+  useEffect(() => {
+    if (complete) return;
+    setLoggingIn(false);
+    setShowRSA(false);
+  }, [complete]);
 
   return (
     <main className="flex min-h-screen items-center bg-slate-200" >
@@ -25,6 +32,8 @@ function App() {
           loggingIn={loggingIn}
           email={email}
           setEmail={setEmail}
+          complete={complete}
+          setComplete={setComplete}
         />
       </section>
       <section
@@ -37,6 +46,7 @@ function App() {
             onClick={() => setShowRSA(false)}
             loggingIn={loggingIn}
             email={email}
+            setComplete={setComplete}
           />
         }
       </section>
