@@ -83,6 +83,16 @@ export default function RSAPanel({onClick, loggingIn, email}) {
         return encrypted;
     };
 
+    const chunkString = (str, size = 15) => {
+        const chunks = [];
+      
+        for (let i = 0; i < str.length; i += size) {
+            chunks.push(str.slice(i, i + size));
+        }
+      
+        return chunks;
+    };
+
     useEffect(() => {
         const computeRSA = async () => {
             if (!loggingIn) return;
@@ -178,9 +188,7 @@ export default function RSAPanel({onClick, loggingIn, email}) {
             ]);
 
             // Encode session key to ASCII then encrypt
-            const encodedKey = encodeASCII(sessKey);
-            const blocks = encodedKey.match(/.{1,3}/g) || [];
-            const encryptedBlocks = rsaEncrypt(encodedKey, e, n);
+            const encryptedBlocks = rsaEncrypt(sessKey, e, n);
 
             newEntries = [
                 {
