@@ -6,6 +6,7 @@ import './App.css'
 function App() {
   const [showRSA, setShowRSA] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
+  const [email, setEmail] = useState("");
 
   return (
     <main className="flex min-h-screen items-center bg-slate-200" >
@@ -22,6 +23,8 @@ function App() {
             }, 500);
           }}
           loggingIn={loggingIn}
+          email={email}
+          setEmail={setEmail}
         />
       </section>
       <section
@@ -33,6 +36,7 @@ function App() {
           <RSAPanel 
             onClick={() => setShowRSA(false)}
             loggingIn={loggingIn}
+            email={email}
           />
         }
       </section>

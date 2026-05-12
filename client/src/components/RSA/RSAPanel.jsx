@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {X} from 'lucide-react';
 import LogEntry from './LogEntry';
 
-export default function RSAPanel({onClick, loggingIn}) {
+export default function RSAPanel({onClick, loggingIn, email}) {
     const [serverLogs, setServerLogs] = useState([]);
     const [clientLogs, setClientLogs] = useState([]);
 
@@ -249,7 +249,7 @@ export default function RSAPanel({onClick, loggingIn}) {
                     step: "6",
                     title: "Secure channel established",
                     entries: [
-                        {content: `User "alice@example.com" authenticated`, color: "green"},
+                        {content: `User "${email}" authenticated`, color: "green"},
                         {content: "Symmetric encryption now active", color: "white"}
                     ]
                 }
