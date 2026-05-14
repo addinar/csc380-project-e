@@ -1,5 +1,7 @@
 # CSC380-Project-E
-This project implements an asymmetric encryption and decryption algorithm using RSA (Rivest-Shamir-Adleman). RSA is a widely used public-key cryptosystem that enables secure data transmission and digital signatures. Link to our [presentation](https://docs.google.com/presentation/d/1TcdGM9CHnBRBnNOy6Wsqgn1skZ8cCOOtgBEJE2dDzDU/edit?usp=sharing).
+This project implements an asymmetric encryption and decryption algorithm using RSA (Rivest-Shamir-Adleman). RSA is a widely used public-key cryptosystem that enables secure data transmission and digital signatures. It aims to simulate how a session key is encrypted and decrypted between a client and server after login.
+
+Link to our [presentation](https://docs.google.com/presentation/d/1TcdGM9CHnBRBnNOy6Wsqgn1skZ8cCOOtgBEJE2dDzDU/edit?usp=sharing).
 
 ## Features
 * Key Generation: Generate RSA public and private key pairs
