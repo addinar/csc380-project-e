@@ -218,6 +218,7 @@ export default function RSAPanel({ onClick, loggingIn, email, setComplete }) {
                     step: "5",
                     title: "Received encrypted session key...",
                     entries: [
+                        {content: `Received: ${encryptedBlocks.slice(0, 3).join(", ")}${encryptedBlocks.length > 3 ? ", ..." : ""}`, color: "green"},
                         {content: "m = Cᵈ mod n using d, n", color: "yellow"},
                     ]
                 }
