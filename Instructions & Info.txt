@@ -1,0 +1,12 @@
+In order to test the program you have open two terminals from within the client and server folders.
+
+Then, type:
+* npm install
+* npm run dev
+
+Open the link from the client for local host and you can test it out.
+
+
+
+We're using express backend, you can find the RSA algorithm and decrypt in server/index.js
+and encryption in client/components/RSA/rsapanel.jsx
